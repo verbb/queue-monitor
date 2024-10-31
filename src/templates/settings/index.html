@@ -1,0 +1,87 @@
+{% extends 'queue-monitor/_layouts/settings' %}
+
+{% import '_includes/forms' as forms %}
+{% import 'verbb-base/_macros' as macros %}
+
+{% set fullPageForm = true %}
+{% set selectedNavItem = 'general' %}
+
+{% block blockContent %}
+
+<input type="hidden" name="action" value="plugins/save-plugin-settings">
+<input type="hidden" name="pluginHandle" value="queue-monitor">
+
+{% namespace 'settings' %}
+
+{{ forms.booleanMenuField({
+    first: true,
+    label: 'Auto-Restart Failed Jobs' | t('queue-monitor'),
+    instructions: 'Whether to automatically restart a failed queue job.' | t('queue-monitor'),
+    id: 'restartFailedJobs',
+    name: 'restartFailedJobs',
+    suggestEnvVars: true,
+    toggle: 'restart-details',
+    value: settings.restartFailedJobs,
+    errors: settings.getErrors('restartFailedJobs'),
+    warning: macros.configWarning('restartFailedJobs', 'queue-monitor'),
+}) }}
+
+<div id="restart-details" class="{% if not settings.restartFailedJobs %}hidden{% endif %}">
+    {{ forms.textField({
+        label: 'Maximum Retries' | t('queue-monitor'),
+        instructions: 'The number of retries a failed job should retry until.' | t('queue-monitor'),
+        id: 'restartMaxTries',
+        name: 'restartMaxTries',
+        size: 2,
+        value: settings.restartMaxTries,
+        errors: settings.getErrors('restartMaxTries'),
+        warning: macros.configWarning('restartMaxTries', 'queue-monitor'),
+    }) }}
+
+    {{ forms.textField({
+        label: 'Retry Interval' | t('queue-monitor'),
+        instructions: 'The number seconds between retries.' | t('queue-monitor'),
+        id: 'restartInterval',
+        name: 'restartInterval',
+        size: 2,
+        value: settings.restartInterval,
+        errors: settings.getErrors('restartInterval'),
+        warning: macros.configWarning('restartInterval', 'queue-monitor'),
+    }) }}
+</div>
+
+{{ forms.booleanMenuField({
+    label: 'Send Failed Queue Email' | t('queue-monitor'),
+    instructions: 'Whether to send an email to notify users when a queue job has failed.' | t('queue-monitor'),
+    id: 'sendFailedJobEmail',
+    name: 'sendFailedJobEmail',
+    suggestEnvVars: true,
+    toggle: 'email-details',
+    value: settings.sendFailedJobEmail,
+    errors: settings.getErrors('sendFailedJobEmail'),
+    warning: macros.configWarning('sendFailedJobEmail', 'queue-monitor'),
+}) }}
+
+<div id="email-details" class="{% if not settings.sendFailedJobEmail %}hidden{% endif %}">
+    {% set groups = [{ label: 'None' | t('queue-monitor'), value: '' }] %}
+
+    {% for group in craft.app.userGroups.getAllGroups() %}
+        {% set groups = groups | merge([{ label: group.name, value: group.uid }]) %}
+    {% endfor %}
+
+    {{ forms.selectField({
+        label: 'Notification User Group' | t('queue-monitor'),
+        instructions: 'Select the user group to receive failed queue job notifications. Each user in this group will receive an emails.' | t('queue-monitor'),
+        id: 'failedJobUserGroup',
+        name: 'failedJobUserGroup',
+        suggestEnvVars: true,
+        value: settings.failedJobUserGroup,
+        options: groups,
+        errors: settings.getErrors('failedJobUserGroup'),
+        warning: macros.configWarning('failedJobUserGroup', 'queue-monitor'),
+    }) }}
+</div>
+
+{% endnamespace %}
+
+{% endblock %}

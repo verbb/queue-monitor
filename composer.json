@@ -1,0 +1,43 @@
+{
+    "name": "verbb/queue-monitor",
+    "description": "Monitor the Craft queue to know when jobs fail.",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "queue-monitor"
+    ],
+    "support": {
+        "email": "support@verbb.io",
+        "issues": "https://github.com/verbb/queue-monitor/issues?state=open",
+        "source": "https://github.com/verbb/queue-monitor",
+        "docs": "https://github.com/verbb/queue-monitor",
+        "rss": "https://github.com/verbb/queue-monitor/commits/v2.atom"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Verbb",
+            "homepage": "https://verbb.io"
+        }
+    ],
+    "require": {
+        "php": "^8.0.2",
+        "craftcms/cms": "^4.0.0",
+        "verbb/base": "^2.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "verbb\\queuemonitor\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Queue Monitor",
+        "handle": "queue-monitor",
+        "changelogUrl": "https://raw.githubusercontent.com/verbb/queue-monitor/craft-4/CHANGELOG.md",
+        "class": "verbb\\queuemonitor\\QueueMonitor"
+    }
+}
