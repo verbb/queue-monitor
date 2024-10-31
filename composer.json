@@ -2,7 +2,7 @@
     "name": "verbb/queue-monitor",
     "description": "Monitor the Craft queue to know when jobs fail.",
     "type": "craft-plugin",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "keywords": [
         "craft",
         "cms",
@@ -25,9 +25,9 @@
         }
     ],
     "require": {
-        "php": "^8.0.2",
-        "craftcms/cms": "^4.0.0",
-        "verbb/base": "^2.0.0"
+        "php": "^8.2",
+        "craftcms/cms": "^5.0.0",
+        "verbb/base": "^3.0.0"
     },
     "autoload": {
         "psr-4": {
@@ -37,7 +37,7 @@
     "extra": {
         "name": "Queue Monitor",
         "handle": "queue-monitor",
-        "changelogUrl": "https://raw.githubusercontent.com/verbb/queue-monitor/craft-4/CHANGELOG.md",
+        "changelogUrl": "https://raw.githubusercontent.com/verbb/queue-monitor/craft-5/CHANGELOG.md",
         "class": "verbb\\queuemonitor\\QueueMonitor"
     }
 }

@@ -42,8 +42,6 @@ class QueueMonitor extends Plugin
 
         self::$plugin = $this;
 
-        $this->_setPluginComponents();
-        $this->_setLogging();
         $this->_registerVariables();
         $this->_registerCraftEventListeners();
         $this->_registerEmailMessages();
