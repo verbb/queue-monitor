@@ -12,7 +12,7 @@
         "title": "Feature Tour",
         "collapsable": false,
         "children": [
-            "feature-route/usage"
+            "feature-tour/usage"
         ]
     }
 ]
