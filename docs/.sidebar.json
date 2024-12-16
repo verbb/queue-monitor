@@ -12,21 +12,7 @@
         "title": "Feature Tour",
         "collapsable": false,
         "children": [
-            
-        ]
-    },
-    {
-        "title": "Template Guides",
-        "collapsable": false,
-        "children": [
-            "template-guides/available-variables"
-        ]
-    },
-    {
-        "title": "Developers",
-        "collapsable": false,
-        "children": [
-            "developers/events"
+            "feature-route/usage"
         ]
     }
 ]
