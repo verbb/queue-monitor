@@ -51,7 +51,7 @@ class Settings extends Model
     protected function defineRules(): array
     {
         $rules = parent::defineRules();
-        $rules[] = [['restartMaxTries'], 'number', 'integerOnly' => true];
+        $rules[] = [['restartMaxTries', 'restartInterval'], 'number', 'integerOnly' => true];
         
         return $rules;
     }
