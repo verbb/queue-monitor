@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.2 - 2025-07-18
+
+### Changed
+- Craft 5 support.
+
 ## 2.0.1 - 2025-07-18
 
 ### Changed
