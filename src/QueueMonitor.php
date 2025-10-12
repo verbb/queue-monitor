@@ -93,7 +93,7 @@ class QueueMonitor extends Plugin
         // Change the default Queue service handling
         if ($settings->getRestartFailedJobs()) {
             Craft::$app->getQueue()->attempts = $settings->restartMaxTries;
-            Craft::$app->getQueue()->delay = $settings->restartInterval;
+            Craft::$app->getQueue()->delay($settings->restartInterval);
         }
 
         Event::on(Queue::class, Queue::EVENT_AFTER_ERROR, function(ExecEvent $event) {
