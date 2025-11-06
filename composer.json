@@ -2,7 +2,7 @@
     "name": "verbb/queue-monitor",
     "description": "Monitor the Craft queue to know when jobs fail.",
     "type": "craft-plugin",
-    "version": "2.0.2",
+    "version": "2.0.3",
     "keywords": [
         "craft",
         "cms",

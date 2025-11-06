@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.3 - 2025-11-06
+
+### Fixed
+- Fix plugin overwriting TTR setting for delay.
+
 ## 2.0.2 - 2025-07-18
 
 ### Changed
