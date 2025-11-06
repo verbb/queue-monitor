@@ -15,6 +15,11 @@
 ### Changed
 - Now requires Craft 5.0+.
 
+## 1.0.2 - 2025-11-06
+
+### Fixed
+- Fix plugin overwriting TTR setting for delay.
+
 ## 1.0.1 - 2025-07-18
 
 ### Changed
