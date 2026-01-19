@@ -1,4 +1,4 @@
-<p align="center"><img src="https://verbb.imgix.net/plugins/queue-monitor/queue-monitor-icon.svg" width="100" height="100" alt="Queue Monitor icon"></p>
+<p align="center"><img src="https://assets.verbb.io/plugins/queue-monitor/queue-monitor-icon.svg" width="100" height="100" alt="Queue Monitor icon"></p>
 <h1 align="center">Queue Monitor for Craft CMS</h1>
 
 Queue Monitor is a Craft CMS plugin that monitors the Craft queue, and lets you know when jobs fail.
