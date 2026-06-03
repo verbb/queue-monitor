@@ -2,12 +2,9 @@
 namespace verbb\queuemonitor\services;
 
 use verbb\queuemonitor\QueueMonitor;
-use verbb\queuemonitor\models\Settings;
 
 use Craft;
 use craft\base\Component;
-use craft\helpers\Db;
-use craft\helpers\UrlHelper;
 
 use yii\queue\ExecEvent;
 
@@ -21,15 +18,39 @@ class Service extends Component
         $settings = QueueMonitor::$plugin->getSettings();
 
         // Only send on first attempt, else we just get hassled
-        if ((int)$event->attempt === 1) {
-            if ($settings->getSendFailedJobEmail() && $users = $settings->getFailedJobUsers()) {
-                foreach ($users as $user) {
-                    Craft::$app->getMailer()
-                        ->composeFromKey('queue_failed_job')
-                        ->setTo($user)
-                        ->send();
-                }
+        if ((int)$event->attempt !== 1 || !$settings->getSendFailedJobEmail()) {
+            return;
+        }
+
+        $sentEmails = [];
+
+        foreach ($settings->getFailedJobUsers() as $user) {
+            Craft::$app->getMailer()
+                ->composeFromKey('queue_failed_job')
+                ->setTo($user)
+                ->send();
+
+            if ($user->email) {
+                $sentEmails[strtolower($user->email)] = true;
             }
+        }
+
+        foreach ($settings->getFailedJobEmails() as $email) {
+            $emailKey = strtolower($email);
+
+            if (isset($sentEmails[$emailKey])) {
+                continue;
+            }
+
+            Craft::$app->getMailer()
+                ->composeFromKey('queue_failed_job', [
+                    'user' => [
+                        'email' => $email,
+                        'friendlyName' => $email,
+                    ],
+                ])
+                ->setTo($email)
+                ->send();
         }
     }
 }

@@ -80,6 +80,26 @@
         errors: settings.getErrors('failedJobUserGroup'),
         warning: macros.configWarning('failedJobUserGroup', 'queue-monitor'),
     }) }}
+
+    {{ forms.editableTableField({
+        label: 'Notification Email Addresses' | t('queue-monitor'),
+        instructions: 'Enter any additional email addresses to receive failed queue job notifications. These recipients do not need to be Craft users.' | t('queue-monitor'),
+        id: 'failedJobEmails',
+        name: 'failedJobEmails',
+        cols: {
+            email: {
+                type: 'autosuggest',
+                heading: 'Email Address' | t('queue-monitor'),
+                suggestEnvVars: true,
+            },
+        },
+        rows: settings.getFailedJobEmailRows(),
+        errors: settings.getErrors('failedJobEmails'),
+        warning: macros.configWarning('failedJobEmails', 'queue-monitor'),
+        allowAdd: true,
+        allowDelete: true,
+        allowReorder: true,
+    }) }}
 </div>
 
 {% endnamespace %}

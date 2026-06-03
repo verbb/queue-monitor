@@ -11,9 +11,12 @@ return [
 
 
   'Auto-Restart Failed Jobs' => 'Auto-Restart Failed Jobs',
+  'Email Address' => 'Email Address',
+  'Enter any additional email addresses to receive failed queue job notifications. These recipients do not need to be Craft users.' => 'Enter any additional email addresses to receive failed queue job notifications. These recipients do not need to be Craft users.',
   'General Settings' => 'General Settings',
   'Maximum Retries' => 'Maximum Retries',
   'None' => 'None',
+  'Notification Email Addresses' => 'Notification Email Addresses',
   'Notification User Group' => 'Notification User Group',
   'Queue Monitor' => 'Queue Monitor',
   'Retry Interval' => 'Retry Interval',

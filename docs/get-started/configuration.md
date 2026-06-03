@@ -13,6 +13,7 @@ return [
         'restartInterval' => 10,
         'sendFailedJobEmail' => false,
         'failedJobUserGroup' => null,
+        'failedJobEmails' => [],
     ]
 ];
 ```
@@ -23,6 +24,7 @@ return [
 - `restartInterval` - The number seconds between retries.
 - `sendFailedJobEmail` - Whether to send an email to notify users when a queue job has failed.
 - `failedJobUserGroup` - The user group (UID) to receive failed queue job notifications. Each user in this group will receive an emails.
+- `failedJobEmails` - Additional email addresses to receive failed queue job notifications. These recipients do not need to be Craft users.
 
 ## Control Panel
 You can also manage configuration settings through the Control Panel by visiting Settings → Queue Monitor.
