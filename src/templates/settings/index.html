@@ -102,6 +102,105 @@
     }) }}
 </div>
 
+{{ forms.booleanMenuField({
+    label: 'Monitor Stalled Queue' | t('queue-monitor'),
+    instructions: 'Whether to monitor the queue for jobs that are waiting but not being processed.' | t('queue-monitor'),
+    id: 'monitorStalledQueue',
+    name: 'monitorStalledQueue',
+    suggestEnvVars: true,
+    toggle: 'stalled-queue-details',
+    value: settings.monitorStalledQueue,
+    errors: settings.getErrors('monitorStalledQueue'),
+    warning: macros.configWarning('monitorStalledQueue', 'queue-monitor'),
+}) }}
+
+<div id="stalled-queue-details" class="{% if not settings.monitorStalledQueue %}hidden{% endif %}">
+    {{ forms.textField({
+        label: 'Stalled Queue Threshold' | t('queue-monitor'),
+        instructions: 'The number of minutes a queue job can wait before the queue is considered stalled.' | t('queue-monitor'),
+        id: 'stalledQueueThreshold',
+        name: 'stalledQueueThreshold',
+        size: 2,
+        value: settings.stalledQueueThreshold,
+        errors: settings.getErrors('stalledQueueThreshold'),
+        warning: macros.configWarning('stalledQueueThreshold', 'queue-monitor'),
+    }) }}
+
+    {{ forms.textField({
+        label: 'Stalled Queue Check Interval' | t('queue-monitor'),
+        instructions: 'The minimum number of minutes between stalled queue notifications.' | t('queue-monitor'),
+        id: 'stalledQueueCheckInterval',
+        name: 'stalledQueueCheckInterval',
+        size: 2,
+        value: settings.stalledQueueCheckInterval,
+        errors: settings.getErrors('stalledQueueCheckInterval'),
+        warning: macros.configWarning('stalledQueueCheckInterval', 'queue-monitor'),
+    }) }}
+
+    {{ forms.booleanMenuField({
+        label: 'Send Stalled Queue Email' | t('queue-monitor'),
+        instructions: 'Whether to send an email when the queue appears stalled.' | t('queue-monitor'),
+        id: 'sendStalledQueueEmail',
+        name: 'sendStalledQueueEmail',
+        suggestEnvVars: true,
+        toggle: 'stalled-queue-email-details',
+        value: settings.sendStalledQueueEmail,
+        errors: settings.getErrors('sendStalledQueueEmail'),
+        warning: macros.configWarning('sendStalledQueueEmail', 'queue-monitor'),
+    }) }}
+
+    <div id="stalled-queue-email-details" class="{% if not settings.sendStalledQueueEmail %}hidden{% endif %}">
+        {% set stalledGroups = [{ label: 'None' | t('queue-monitor'), value: '' }] %}
+
+        {% for group in craft.app.userGroups.getAllGroups() %}
+            {% set stalledGroups = stalledGroups | merge([{ label: group.name, value: group.uid }]) %}
+        {% endfor %}
+
+        {{ forms.selectField({
+            label: 'Notification User Group' | t('queue-monitor'),
+            instructions: 'Select the user group to receive stalled queue notifications. Each user in this group will receive an email.' | t('queue-monitor'),
+            id: 'stalledQueueUserGroup',
+            name: 'stalledQueueUserGroup',
+            suggestEnvVars: true,
+            value: settings.stalledQueueUserGroup,
+            options: stalledGroups,
+            errors: settings.getErrors('stalledQueueUserGroup'),
+            warning: macros.configWarning('stalledQueueUserGroup', 'queue-monitor'),
+        }) }}
+
+        {{ forms.editableTableField({
+            label: 'Notification Email Addresses' | t('queue-monitor'),
+            instructions: 'Enter any additional email addresses to receive stalled queue notifications. These recipients do not need to be Craft users.' | t('queue-monitor'),
+            id: 'stalledQueueEmails',
+            name: 'stalledQueueEmails',
+            cols: {
+                email: {
+                    type: 'autosuggest',
+                    heading: 'Email Address' | t('queue-monitor'),
+                    suggestEnvVars: true,
+                },
+            },
+            rows: settings.getStalledQueueEmailRows(),
+            errors: settings.getErrors('stalledQueueEmails'),
+            warning: macros.configWarning('stalledQueueEmails', 'queue-monitor'),
+            allowAdd: true,
+            allowDelete: true,
+            allowReorder: true,
+        }) }}
+    </div>
+
+    {{ forms.textField({
+        label: 'Webhook URL' | t('queue-monitor'),
+        instructions: 'Enter a webhook URL to send stalled queue notifications.' | t('queue-monitor'),
+        id: 'stalledQueueWebhook',
+        name: 'stalledQueueWebhook',
+        suggestEnvVars: true,
+        value: settings.stalledQueueWebhook,
+        errors: settings.getErrors('stalledQueueWebhook'),
+        warning: macros.configWarning('stalledQueueWebhook', 'queue-monitor'),
+    }) }}
+</div>
+
 {% endnamespace %}
 
 {% endblock %}

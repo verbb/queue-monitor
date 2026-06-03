@@ -14,6 +14,13 @@ return [
         'sendFailedJobEmail' => false,
         'failedJobUserGroup' => null,
         'failedJobEmails' => [],
+        'monitorStalledQueue' => false,
+        'stalledQueueThreshold' => 30,
+        'stalledQueueCheckInterval' => 30,
+        'sendStalledQueueEmail' => false,
+        'stalledQueueUserGroup' => null,
+        'stalledQueueEmails' => [],
+        'stalledQueueWebhook' => null,
     ]
 ];
 ```
@@ -25,6 +32,20 @@ return [
 - `sendFailedJobEmail` - Whether to send an email to notify users when a queue job has failed.
 - `failedJobUserGroup` - The user group (UID) to receive failed queue job notifications. Each user in this group will receive an emails.
 - `failedJobEmails` - Additional email addresses to receive failed queue job notifications. These recipients do not need to be Craft users.
+- `monitorStalledQueue` - Whether to monitor the queue for jobs that are waiting but not being processed.
+- `stalledQueueThreshold` - The number of minutes a queue job can wait before the queue is considered stalled.
+- `stalledQueueCheckInterval` - The minimum number of minutes between stalled queue notifications.
+- `sendStalledQueueEmail` - Whether to send an email when the queue appears stalled.
+- `stalledQueueUserGroup` - The user group (UID) to receive stalled queue notifications. Each user in this group will receive an email.
+- `stalledQueueEmails` - Additional email addresses to receive stalled queue notifications. These recipients do not need to be Craft users.
+- `stalledQueueWebhook` - A webhook URL to send stalled queue notifications.
+
+## Stalled Queue Monitoring
+Stalled queue monitoring should be run from cron so it can detect when the queue worker itself has stopped. For example, run this command every five minutes:
+
+```bash
+*/5 * * * * /path/to/project/craft queue-monitor/stalled/check
+```
 
 ## Control Panel
 You can also manage configuration settings through the Control Panel by visiting Settings → Queue Monitor.

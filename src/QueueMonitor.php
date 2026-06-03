@@ -108,6 +108,13 @@ class QueueMonitor extends Plugin
                 'subject' => Craft::t('queue-monitor', 'queue_failed_job_subject'),
                 'body' => Craft::t('queue-monitor', 'queue_failed_job_body'),
             ];
+
+            $event->messages[] = [
+                'key' => 'queue_stalled',
+                'heading' => Craft::t('queue-monitor', 'queue_stalled_heading'),
+                'subject' => Craft::t('queue-monitor', 'queue_stalled_subject'),
+                'body' => Craft::t('queue-monitor', 'queue_stalled_body'),
+            ];
         });
     }
 }
