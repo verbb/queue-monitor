@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.4 - 2026-06-05
+
+### Added
+- Add stalled queue monitoring with email and webhook notifications.
+- Add support for failed queue job notification email addresses that do not need to be Craft users.
+
 ## 2.0.3 - 2025-11-06
 
 ### Fixed
