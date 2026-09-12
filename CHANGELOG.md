@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.5 - 2026-09-13
+
+### Changed
+- Normalize plugin settings.
+
 ## 2.0.4 - 2026-06-05
 
 ### Added
