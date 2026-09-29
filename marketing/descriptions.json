@@ -1,0 +1,4 @@
+{
+    "marketplace": "Monitor the queue to know when jobs fail.",
+    "repository": "A Craft CMS plugin for monitoring queue failures and sending notifications."
+}
