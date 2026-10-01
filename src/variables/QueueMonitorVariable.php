@@ -12,5 +12,5 @@ class QueueMonitorVariable
     {
         return QueueMonitor::$plugin;
     }
-    
+
 }
