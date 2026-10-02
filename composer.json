@@ -2,7 +2,7 @@
     "name": "verbb/queue-monitor",
     "description": "A Craft CMS plugin for monitoring queue failures and sending notifications.",
     "type": "craft-plugin",
-    "version": "2.0.7",
+    "version": "2.0.8",
     "keywords": [
         "craft",
         "cms",
