@@ -1,6 +1,6 @@
 {% extends parentLayout ?? '_layouts/cp' %}
 
-{% do view.registerAssetBundle('verbb\\queuemonitor\\assetbundles\\QueueMonitorAsset') %}
+{% do view.registerAssetBundle('verbb\\queuemonitor\\web\\assets\\cp\\QueueMonitorAsset') %}
 
 {% if title is not defined %}
     {% set title = 'Queue Monitor' | t('queue-monitor') %}
