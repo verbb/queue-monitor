@@ -19,6 +19,9 @@ class Service extends Component
     // =========================================================================
 
     private const STALLED_QUEUE_ALERT_CACHE_KEY = 'queue-monitor:stalled-queue-alert';
+    private const STALLED_QUEUE_ALERT_MUTEX_KEY = 'queue-monitor:stalled-queue-alert-lock';
+    private const WEBHOOK_CONNECT_TIMEOUT = 5;
+    private const WEBHOOK_TIMEOUT = 15;
 
 
     // Public Methods
@@ -87,10 +90,25 @@ class Service extends Component
             return $job;
         }
 
-        $this->_sendStalledQueueEmail($job);
-        $this->_sendStalledQueueWebhook($job);
+        $mutex = Craft::$app->getMutex();
 
-        $cache->set(self::STALLED_QUEUE_ALERT_CACHE_KEY, true, $settings->getStalledQueueCheckInterval() * 60);
+        if (!$mutex->acquire(self::STALLED_QUEUE_ALERT_MUTEX_KEY, 0)) {
+            return $job;
+        }
+
+        try {
+            // Recheck after serialization because another process may have sent the alert while this one was waiting.
+            if ($cache->get(self::STALLED_QUEUE_ALERT_CACHE_KEY)) {
+                return $job;
+            }
+
+            $this->_sendStalledQueueEmail($job);
+            $this->_sendStalledQueueWebhook($job);
+
+            $cache->set(self::STALLED_QUEUE_ALERT_CACHE_KEY, true, $settings->getStalledQueueCheckInterval() * 60);
+        } finally {
+            $mutex->release(self::STALLED_QUEUE_ALERT_MUTEX_KEY);
+        }
 
         return $job;
     }
@@ -170,7 +188,14 @@ class Service extends Component
         $queueUrl = UrlHelper::cpUrl('utilities/queue-manager');
 
         try {
-            Craft::createGuzzleClient()->post($webhookUrl, [
+            $client = Craft::createGuzzleClient();
+            $connectTimeout = (float)$client->getConfig('connect_timeout');
+            $timeout = (float)$client->getConfig('timeout');
+
+            // Keep stricter project-wide limits while ensuring this synchronous request is always bounded.
+            $client->post($webhookUrl, [
+                'connect_timeout' => $connectTimeout > 0 ? min($connectTimeout, self::WEBHOOK_CONNECT_TIMEOUT) : self::WEBHOOK_CONNECT_TIMEOUT,
+                'timeout' => $timeout > 0 ? min($timeout, self::WEBHOOK_TIMEOUT) : self::WEBHOOK_TIMEOUT,
                 'json' => [
                     'text' => Craft::t('queue-monitor', 'Queue appears stalled on {siteName}. Oldest available job "{description}" has been waiting {age} minutes. Review it at {url}', [
                         'siteName' => Craft::$app->getSystemName(),

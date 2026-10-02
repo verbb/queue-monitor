@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+### Fixed
+- Fixed a medium-severity denial-of-service vulnerability.
+
 ## 2.0.8 - 2026-10-02
 
 ### Changed
