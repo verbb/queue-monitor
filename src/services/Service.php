@@ -16,6 +16,7 @@ use yii\queue\ExecEvent;
 use RuntimeException;
 use Throwable;
 
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Handler\CurlHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\RequestOptions;
@@ -193,6 +194,7 @@ class Service extends Component
         $age = $this->_stalledQueueJobAge($job);
         $description = $job['description'] ?: Craft::t('queue-monitor', 'Unknown queue job');
         $queueUrl = UrlHelper::cpUrl('utilities/queue-manager');
+        $responseStatusCode = null;
 
         try {
             $client = Craft::createGuzzleClient([
@@ -219,13 +221,29 @@ class Service extends Component
                     ]),
                 ],
             ]));
+            $responseStatusCode = $response->getStatusCode();
 
-            if ($response->getStatusCode() < 200 || $response->getStatusCode() >= 300) {
+            if ($responseStatusCode < 200 || $responseStatusCode >= 300) {
                 throw new RuntimeException('Webhook endpoint did not accept the notification.');
             }
         } catch (Throwable $e) {
-            Craft::error('Unable to send stalled queue webhook notification: ' . $e->getMessage(), __METHOD__);
+            Craft::error($this->_stalledQueueWebhookErrorMessage($e, $responseStatusCode), __METHOD__);
         }
+    }
+
+    private function _stalledQueueWebhookErrorMessage(Throwable $error, ?int $responseStatusCode = null): string
+    {
+        $message = 'Unable to send stalled queue webhook notification.';
+
+        if ($responseStatusCode === null && $error instanceof RequestException && $error->hasResponse()) {
+            $responseStatusCode = $error->getResponse()->getStatusCode();
+        }
+
+        if ($responseStatusCode !== null) {
+            $message .= ' HTTP status: ' . $responseStatusCode . '.';
+        }
+
+        return $message;
     }
 
     private function _stalledQueueMessageParams(array $job): array
