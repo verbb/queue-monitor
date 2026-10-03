@@ -19,7 +19,7 @@ return [
   'Email Address' => 'Email Address',
   'Enter any additional email addresses to receive failed queue job notifications. These recipients do not need to be Craft users.' => 'Enter any additional email addresses to receive failed queue job notifications. These recipients do not need to be Craft users.',
   'Enter any additional email addresses to receive stalled queue notifications. These recipients do not need to be Craft users.' => 'Enter any additional email addresses to receive stalled queue notifications. These recipients do not need to be Craft users.',
-  'Enter a webhook URL to send stalled queue notifications.' => 'Enter a webhook URL to send stalled queue notifications.',
+  'Enter a public HTTPS webhook URL to send stalled queue notifications.' => 'Enter a public HTTPS webhook URL to send stalled queue notifications.',
   'General Settings' => 'General Settings',
   'Maximum Retries' => 'Maximum Retries',
   'Monitor Stalled Queue' => 'Monitor Stalled Queue',
@@ -45,5 +45,7 @@ return [
   'Whether to monitor the queue for jobs that are waiting but not being processed.' => 'Whether to monitor the queue for jobs that are waiting but not being processed.',
   'Whether to send an email to notify users when a queue job has failed.' => 'Whether to send an email to notify users when a queue job has failed.',
   'Whether to send an email when the queue appears stalled.' => 'Whether to send an email when the queue appears stalled.',
+  'Webhook connection did not use the validated public address.' => 'Webhook connection did not use the validated public address.',
   'Webhook URL' => 'Webhook URL',
+  'Webhook URL must be a public HTTPS address.' => 'Webhook URL must be a public HTTPS address.',
 ];

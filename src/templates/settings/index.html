@@ -187,7 +187,7 @@
 
         {{ forms.textField({
             label: 'Webhook URL' | t('queue-monitor'),
-            instructions: 'Enter a webhook URL to send stalled queue notifications.' | t('queue-monitor'),
+            instructions: 'Enter a public HTTPS webhook URL to send stalled queue notifications.' | t('queue-monitor'),
             id: 'stalledQueueWebhook',
             name: 'stalledQueueWebhook',
             suggestEnvVars: true,

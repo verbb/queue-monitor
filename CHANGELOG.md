@@ -4,6 +4,7 @@
 
 ### Fixed
 - Fixed a medium-severity denial-of-service vulnerability.
+- Fixed a low-severity server-side request forgery vulnerability.
 
 ## 2.0.8 - 2026-10-02
 

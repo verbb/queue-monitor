@@ -2,6 +2,7 @@
 namespace verbb\queuemonitor\services;
 
 use verbb\queuemonitor\QueueMonitor;
+use verbb\queuemonitor\helpers\WebhookUrl;
 
 use Craft;
 use craft\base\Component;
@@ -9,9 +10,15 @@ use craft\db\Query;
 use craft\db\Table;
 use craft\helpers\UrlHelper;
 
-use Throwable;
 use yii\db\Expression;
 use yii\queue\ExecEvent;
+
+use RuntimeException;
+use Throwable;
+
+use GuzzleHttp\Handler\CurlHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\RequestOptions;
 
 class Service extends Component
 {
@@ -188,15 +195,22 @@ class Service extends Component
         $queueUrl = UrlHelper::cpUrl('utilities/queue-manager');
 
         try {
-            $client = Craft::createGuzzleClient();
-            $connectTimeout = (float)$client->getConfig('connect_timeout');
-            $timeout = (float)$client->getConfig('timeout');
+            $client = Craft::createGuzzleClient([
+                'handler' => HandlerStack::create(new CurlHandler()),
+            ]);
+            $connectTimeout = (float)$client->getConfig(RequestOptions::CONNECT_TIMEOUT);
+            $timeout = (float)$client->getConfig(RequestOptions::TIMEOUT);
+            $request = WebhookUrl::prepareRequest($webhookUrl, array_filter([
+                RequestOptions::CURL => $client->getConfig(RequestOptions::CURL),
+                RequestOptions::ON_STATS => $client->getConfig(RequestOptions::ON_STATS),
+                RequestOptions::VERIFY => $client->getConfig(RequestOptions::VERIFY),
+            ], fn(mixed $value): bool => $value !== null));
 
             // Keep stricter project-wide limits while ensuring this synchronous request is always bounded.
-            $client->post($webhookUrl, [
-                'connect_timeout' => $connectTimeout > 0 ? min($connectTimeout, self::WEBHOOK_CONNECT_TIMEOUT) : self::WEBHOOK_CONNECT_TIMEOUT,
-                'timeout' => $timeout > 0 ? min($timeout, self::WEBHOOK_TIMEOUT) : self::WEBHOOK_TIMEOUT,
-                'json' => [
+            $response = $client->post($request['url'], array_merge($request['options'], [
+                RequestOptions::CONNECT_TIMEOUT => $connectTimeout > 0 ? min($connectTimeout, self::WEBHOOK_CONNECT_TIMEOUT) : self::WEBHOOK_CONNECT_TIMEOUT,
+                RequestOptions::TIMEOUT => $timeout > 0 ? min($timeout, self::WEBHOOK_TIMEOUT) : self::WEBHOOK_TIMEOUT,
+                RequestOptions::JSON => [
                     'text' => Craft::t('queue-monitor', 'Queue appears stalled on {siteName}. Oldest available job "{description}" has been waiting {age} minutes. Review it at {url}', [
                         'siteName' => Craft::$app->getSystemName(),
                         'description' => $description,
@@ -204,7 +218,11 @@ class Service extends Component
                         'url' => $queueUrl,
                     ]),
                 ],
-            ]);
+            ]));
+
+            if ($response->getStatusCode() < 200 || $response->getStatusCode() >= 300) {
+                throw new RuntimeException('Webhook endpoint did not accept the notification.');
+            }
         } catch (Throwable $e) {
             Craft::error('Unable to send stalled queue webhook notification: ' . $e->getMessage(), __METHOD__);
         }

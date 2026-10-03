@@ -117,7 +117,7 @@ Additional email addresses to receive stalled queue notifications. These recipie
 
 **Type:** `string|null` · **Default:** `null`
 
-A webhook URL to send stalled queue notifications.
+A public HTTPS webhook URL to send stalled queue notifications. The endpoint must resolve only to publicly routable addresses and must not redirect.
 :::
 
 
