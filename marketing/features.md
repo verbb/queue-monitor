@@ -5,7 +5,7 @@ Queue Monitor watches Craft’s background jobs and tells the right people when 
 <!-- feature-section -->
 ## Catch failed and stalled jobs
 
-Monitor Craft’s queue for jobs that have failed, or for queued work that has stopped moving altogether. Teams can respond to interrupted imports, emails, transforms, and other background work without waiting for an editor or customer to notice the result.
+Monitor Craft’s queue for jobs that have failed, or for queued work that has stopped moving altogether. Teams can respond to interrupted imports, emails, transforms, and other background work.
 
 <!-- feature-section-end -->
 
@@ -17,7 +17,7 @@ Monitor Craft’s queue for jobs that have failed, or for queued work that has s
 <!-- feature-grid-end -->
 
 <!-- feature-section -->
-## Useful alerts
+## Choose who is alerted and when
 
 Configure who should be notified, how long a job may wait before the queue is considered stalled, and the conditions that deserve attention so routine processing does not become inbox noise. Queue Monitor complements Craft’s own queue tools rather than replacing them.
 <!-- feature-section-end -->

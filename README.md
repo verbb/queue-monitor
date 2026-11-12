@@ -7,23 +7,23 @@ Monitor Craft's queue for jobs that have failed and send a notification with a d
 
 ## Features
 
-- Watch the background jobs Craft and installed plugins create.
-- Identify failed work that would otherwise sit unnoticed.
+- Watch the jobs Craft and installed plugins create, and catch failures that would otherwise go unnoticed.
 - Retry failed jobs according to the project's configured limits.
 - Notify the people responsible for keeping the site healthy.
 - Send queue failures and stalled-queue warnings to another monitoring service.
 - Point recipients back to the queue information in Craft.
-- Configure monitoring so alerts reflect the project's operational needs.
-- Add awareness while leaving queue management with Craft.
 
 ## Documentation
+
 Visit the [Queue Monitor Plugin page](https://verbb.io/craft-plugins/queue-monitor) for all documentation, guides, pricing and developer resources.
 
 ## Support
-Get in touch with us via the [Queue Monitor Support page](https://verbb.io/craft-plugins/queue-monitor/support) or by [creating a Github issue](https://github.com/verbb/queue-monitor/issues)
+
+Get in touch with us via the [Queue Monitor Support page](https://verbb.io/craft-plugins/queue-monitor/support) or by [creating a GitHub issue](https://github.com/verbb/queue-monitor/issues).
 
 ## Sponsor
-Queue Monitor is licensed under the MIT license, meaning it will always be free and open source - we love free stuff! If you'd like to show your support to the plugin regardless, [Sponsor](https://github.com/sponsors/verbb) development.
+
+Queue Monitor is licensed under the MIT license, so it will always be free and open source. If you'd like to support it anyway, you can [sponsor its development](https://github.com/sponsors/verbb).
 
 <h2></h2>
 

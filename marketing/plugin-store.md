@@ -4,11 +4,8 @@ Monitor Craft's queue for jobs that have failed and send a notification with a d
 
 ## Features
 
-- Watch the background jobs Craft and installed plugins create.
-- Identify failed work that would otherwise sit unnoticed.
+- Watch the jobs Craft and installed plugins create, and catch failures that would otherwise go unnoticed.
 - Retry failed jobs according to the project's configured limits.
 - Notify the people responsible for keeping the site healthy.
 - Send queue failures and stalled-queue warnings to another monitoring service.
 - Point recipients back to the queue information in Craft.
-- Configure monitoring so alerts reflect the project's operational needs.
-- Add awareness while leaving queue management with Craft.
