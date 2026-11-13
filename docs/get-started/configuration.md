@@ -12,7 +12,7 @@ return [
 ];
 ```
 
-All other settings keep their defaults. Add any further settings you want to change to the same array. The options below explain the available settings and their defaults.
+All other settings keep their defaults. Add any further settings you want to change to the same array. The options below explain the available settings and their defaults. You can also manage these settings in the control panel under **Settings → Queue Monitor**.
 
 ## Configuration Options
 
@@ -69,7 +69,7 @@ Additional email addresses to receive failed queue job notifications. These reci
 
 **Type:** `bool` · **Default:** `false`
 
-Whether to monitor the queue for jobs that are waiting but not being processed.
+Whether to monitor the queue for jobs that are waiting but not being processed. The check runs from a console command, so schedule it with cron as described in [Stalled Queue Monitoring](../feature-tour/usage.md#stalled-queue-monitoring).
 :::
 
 ::: reference
@@ -119,14 +119,3 @@ Additional email addresses to receive stalled queue notifications. These recipie
 
 A public HTTPS webhook URL to send stalled queue notifications. The endpoint must resolve only to publicly routable addresses and must not redirect.
 :::
-
-
-## Stalled Queue Monitoring
-Stalled queue monitoring should be run from cron so it can detect when the queue worker itself has stopped. For example, run this command every five minutes:
-
-```bash
-*/5 * * * * /path/to/project/craft queue-monitor/stalled/check
-```
-
-## Control Panel
-You can also manage configuration settings through the Control Panel by visiting Settings → Queue Monitor.

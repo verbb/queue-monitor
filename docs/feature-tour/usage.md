@@ -8,6 +8,15 @@ Nominate a User Group in Queue Monitor's settings, with each user in that group 
 ## Auto-Restart Failed Jobs
 You can also easily manage auto-restarting of failed queue jobs. By default, only one attempt is made for a queue job, and if it fails, no more attempts are made. Queue Monitor allows you to manage how many attempts a failed job should retry, along with setting the duration in seconds between retries.
 
+## Stalled Queue Monitoring
+Queue Monitor can also alert you when jobs are waiting but nothing is processing them, such as when the queue worker has stopped. Turn on stalled queue monitoring in Queue Monitor's settings, choose how many minutes a job can wait before the queue counts as stalled, and nominate a User Group, email addresses or a webhook to notify. After an alert is sent, another isn't sent until the notification interval has passed.
+
+The check runs from a console command rather than from the queue, so it still works when the queue worker itself has stopped. Run it from cron, for example every five minutes:
+
+```bash
+*/5 * * * * /path/to/project/craft queue-monitor/stalled/check
+```
+
 ## Choose a Retry Policy
 
 A retry is useful when a job failed because a service was temporarily unavailable. It will not repair an invalid template or missing credentials. For example, a notification group can alert the site's maintainers while a short retry policy gives an interrupted connection time to recover.
